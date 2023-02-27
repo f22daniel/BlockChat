@@ -1,0 +1,185 @@
+#: import Factory kivy.factory.Factory
+#: include event_reader_widgets.kv
+#: include event_reader_popups.kv
+
+<MainLayout>
+    BoxLayout:
+        orientation:'horizontal'
+        spacing: 2
+        padding: 2
+        size: root.width, root.height
+        BoxLayout:
+            orientation:'vertical'
+            spacing: 4
+            padding: 4
+            size: root.width, root.height
+            size_hint: .45, 1
+            BoxLayout:
+                orientation:'horizontal'
+                spacing: 2
+                padding: 2
+                size: root.width, root.height
+                size_hint: 1, .15
+                TimeLabel:
+                    id: time_label
+                    size_hint: 1, 1
+                SettingsButton:
+                    size_hint: .3, 1
+                    on_release: Factory.SettingsPopup().open()
+                    on_enter: root.update_tag("Settings")
+                    on_leave: root.update_tag("")
+                CloseButton:
+                    size_hint: .3, 1
+                    on_release: root.exit_app()
+                    on_enter: root.update_tag("Close")
+                    on_leave: root.update_tag("")
+            SeparateLabel:
+                size_hint: 1, 0.008
+            BoxLayout:
+                orientation:'horizontal'
+                spacing: 2
+                padding: 2
+                size: root.width, root.height
+                size_hint: 1, .15
+                # Network selection toggle buttons
+                EthereumToggle:
+                    id: mainnet
+                    group: "network"
+                    on_press: root.network_selection("mainnet")
+                    on_enter: root.update_tag("Ethereum Mainnet")
+                    on_leave: root.update_tag("")
+                GoerliToggle:
+                    id: goerli
+                    group: "network"
+                    on_press: root.network_selection("goerli")
+                    on_enter: root.update_tag("Goerli Testnet")
+                    on_leave: root.update_tag("")
+                BinanceToggle:
+                    id: bsc
+                    group: "network"
+                    on_press: root.network_selection("bsc")
+                    on_enter: root.update_tag("BNB Chain")
+                    on_leave: root.update_tag("")
+                BinanceTestToggle:
+                    id: bsc_testnet
+                    group: "network"
+                    on_press: root.network_selection("bsc_testnet")
+                    on_enter: root.update_tag("BNB Chain Testnet")
+                    on_leave: root.update_tag("")
+                PolygonToggle:
+                    id: polygon
+                    group: "network"
+                    on_press: root.network_selection("polygon")
+                    on_enter: root.update_tag("Polygon Mainnet")
+                    on_leave: root.update_tag("")
+                MumbaiToggle:
+                    id: mumbai
+                    group: "network"
+                    on_press: root.network_selection("mumbai")
+                    on_enter: root.update_tag("Mumbai Testnet")
+                    on_leave: root.update_tag("")
+            SeparateLabel:
+                size_hint: 1, 0.008
+            ContractInput:
+                id: contract_input
+                text: ""
+                multiline: False
+                # on_focus: root.enter_contract(self.focus)
+                on_focus: root.click_in_text(self.focus)
+                size_hint: 1, None
+                height: 32
+            BoxLayout:
+                orientation:'horizontal'
+                spacing: 2
+                padding: 2
+                size: root.width, root.height
+                size_hint: 1, .15
+                # Event operation buttons
+                DefaultButton:
+                    size_hint: 1, 1
+                    text: "Contract Enter"
+                    id: address_enter_button
+                    disabled: False
+                    on_release: root.enter_contract(contract_input.text)
+                    on_enter: root.update_tag("Load Contract")
+                    on_leave: root.update_tag("")
+                PlayButton:
+                    id: play_button
+                    size_hint: .4, 1
+                    disabled: True
+                    on_release: root.event_listening("play")
+                    on_enter: root.update_tag("Start Listening")
+                    on_leave: root.update_tag("")
+                PauseButton:
+                    id: pause_button
+                    size_hint: .4, 1
+                    disabled: True
+                    on_release: root.event_listening("pause")
+                    on_enter: root.update_tag("Pause listening")
+                    on_leave: root.update_tag("")
+                StopButton:
+                    id: stop_button
+                    size_hint: .4, 1
+                    disabled: True
+                    on_release: root.event_listening("stop")
+                    on_enter: root.update_tag("Stop/Reset")
+                    on_leave: root.update_tag("")
+            SeparateLabel:
+                size_hint: 1, 0.008
+            TimeLabel:
+                id: contract_name
+                text: "Contract Events:"
+                size_hint: 1, .1
+            BoxLayout:
+                orientation:'vertical'
+                size: root.width, root.height
+                size_hint: 1, 0.8
+                ScrollView:
+                    do_scroll_x: False
+                    do_scroll_y: True
+                    BoxLayout:
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        id: event_name_widgets
+                        spacing: 3
+                        padding: 3
+            SeparateLabel:
+                size_hint: 1, 0.008
+            BoxLayout:
+                orientation:'horizontal'
+                spacing: 2
+                padding: 2
+                size: root.width, root.height
+                size_hint: 1, .15
+                TimeLabel:
+                    id: comment_tag
+                    font_size: 20
+        SeparateLabel:
+            size_hint: 0.004, 1
+        BoxLayout:
+            orientation:'vertical'
+            spacing: 2
+            padding: 2
+            size: root.width, root.height
+            TimeLabel:
+                text: "Events"
+                size_hint: 1, 0.05
+            SeparateLabel:
+                size_hint: 1, 0.005
+            BoxLayout:
+                orientation:'vertical'
+                size: root.width, root.height
+                ScrollView:
+                    do_scroll_x: True
+                    do_scroll_y: True
+                    GridLayout:
+                        size_hint_y: None
+                        size_hint_x: None
+                        height: self.minimum_height
+                        width: self.minimum_width
+                        orientation: 'lr-tb'
+                        cols: 4
+                        id: event_display
+                        spacing: 3
+                        padding: 3
