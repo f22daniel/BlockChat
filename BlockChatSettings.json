@@ -1,0 +1,10 @@
+{
+ "polygon_link": "https://polygon-mainnet.g.alchemy.com/v2/LKg7hV4ig9xwjEE28RKbJomYewqqvBuF",
+ "polygon_websocket": "wss://polygon-mainnet.g.alchemy.com/v2/LKg7hV4ig9xwjEE28RKbJomYewqqvBuF",
+ "network_active": "mumbai",
+ "contract_address": "0xE21609Fe47957c7d02D89E96241bAB55EE1c6300",
+ "mumbai_link": "https://polygon-mumbai.g.alchemy.com/v2/rah4ZXOR1QUeM2coTNSjEFHgjX1p_CvO",
+ "mumbai_websocket": "wss://polygon-mumbai.g.alchemy.com/v2/rah4ZXOR1QUeM2coTNSjEFHgjX1p_CvO",
+ "wallet_address": "",
+ "private_key": ""
+}

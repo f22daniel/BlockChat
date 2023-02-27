@@ -1,0 +1,89 @@
+
+<SettingsInput>
+    multiline: False
+    font_size: 16
+    bold: False
+
+<SettingsLabel>
+    markup: True
+    bold: True
+    font_size: 16
+    size_hint: 0.35, 1
+    col: (179/255, 89/255, 0 , 1)
+    canvas.before:
+        Color:
+            rgba: self.col
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [10]
+
+<ViewerLabel>
+    size_hint: 0.7, 1
+
+<SeparateLabel>
+    size_hint: 1, 0.005
+    col: (0, 0, 0, 1)
+    canvas.before:
+        Color:
+            rgba: self.col
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<NetworkToggle>
+    markup: True
+    bold: True
+    font_size: 16
+    size_hint: None, None
+    height: 40
+    width: 250
+    background_color: (0, 0, 0, 0)
+    col: (128/255, 77/255, 0, 1)
+    canvas.before:
+        Color:
+            rgba: self.col
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [8]
+
+<StandardButton@Button>
+    background_color: (0, 0, 0, 0)
+    col: (128/255, 77/255, 0, 1)
+    on_press: self.col = (30/255, 38/255, 0, 1)
+    on_release: self.col = (128/255, 77/255, 0, 1)
+    canvas.before:
+        Color:
+            rgba: self.col
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [8]
+
+<StreamerLabel>
+    size_hint: None, None
+    height: 65
+    width: 200
+    font_size: 14
+    text_size: self.size
+    halign: "left"
+    valign: "middle"
+    padding_x: 10
+    col: (1, 166/255, 77/255, 1)
+
+<SenderTextLabel>
+    size_hint: 1, None
+    height: self.texture_size[1] + 20
+    text_size: (self.width * 0.95, None)
+    halign: "left"
+    col: (70/255, 180/255, 0, 1)
+
+<MessageSeparation>
+    size_hint: 1, None
+    height: 20
+    col: (51/255, 133/255, 1, 1)
+
+<SenderInfoLabel>
+    width: 250
+    col: (190/255, 140/255, 0, 1)

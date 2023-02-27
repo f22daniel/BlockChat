@@ -1,0 +1,232 @@
+#: import Factory kivy.factory.Factory
+#: include block_chat_widgets.kv
+
+<MainLayout>:
+    # wallet_balance_sc: wallet_balance_sc
+    do_default_tab: False
+    tab_width: 180
+    tab_height: 45
+    size_hint: 1, 1
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    tab_pos: 'top_left'
+
+    TabbedPanelItem:
+        text: 'Streamer'
+        font_size: 18
+        bold: True
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 3
+            padding: 3
+            row_force_default: True
+            row_default_height: 20
+            # Background color in Tab
+            canvas.before:
+                Color:
+                    rgba: (51/255, 133/255, 1, 1)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            BoxLayout:
+                orientation: "horizontal"
+                size: root.width, root.height
+                size_hint: 1, .1
+                GridLayout:
+                    rows: 2
+                    cols: 2
+                    spacing: 3
+                    padding: 3
+                    size_hint: 1, 1
+                    orientation: 'lr-tb'
+                    SettingsInput:
+                        multiline: False
+                        hint_text: "Enter your nickname here"
+                        id: streamer_nick
+                        on_text: root.enable_listening(self.text)
+                    StandardButton:
+                        text: "Subscribe"
+                        font_size: 16
+                        id: subscribe
+                        disabled: True
+                        on_release: root.subscribe_streamer(streamer_nick.text, "subscribe")
+                    StandardButton:
+                        text: "Start listening"
+                        font_size: 16
+                        id: start_stop
+                        disabled: True
+                        on_release: root.event_listening(streamer_nick.text)
+                    StandardButton:
+                        text: "Unsubscribe"
+                        font_size: 16
+                        id: unsubscribe
+                        disabled: True
+                        on_release: root.subscribe_streamer(streamer_nick.text, "unsubscribe")
+                StandardButton:
+                    size_hint: 0.3, 1
+                    text: "Close App"
+                    font_size: 18
+                    on_release: root.exit_app()
+            SeparateLabel:
+            BoxLayout:
+                orientation:'vertical'
+                size: root.width, root.height
+                size_hint: 1, 0.6
+                ScrollView:
+                    do_scroll_x: False
+                    do_scroll_y: True
+                    id: streamer_scrollview
+                    BoxLayout:
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        id: streamer_widgets
+                        spacing: 3
+                        padding: 3
+
+    TabbedPanelItem:
+        text: 'Viewer'
+        font_size: 18
+        bold: True
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 3
+            padding: 3
+            row_force_default: True
+            row_default_height: 20
+            # Background color in Tab
+            canvas.before:
+                Color:
+                    rgba: (51/255, 133/255, 1, 1)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            BoxLayout:
+                orientation: "horizontal"
+                size: root.width, root.height
+                size_hint: 1, .22
+                GridLayout:
+                    rows: 3
+                    cols: 2
+                    spacing: 3
+                    padding: 3
+                    size_hint: 2, 1
+                    orientation: 'tb-lr'
+                    ViewerLabel:
+                        text: 'Streamer Name:'
+                    ViewerLabel:
+                        text: 'Viewer Name:'
+                    ViewerLabel:
+                        text: 'Amount $ (min. 0,05$):'
+                    SettingsInput:
+                        id: streamer_name
+                        size_hint: 0.7, 1
+                        on_focus: root.streamer_log(self.focus, self.text)
+                    SettingsInput:
+                        id: viewer_name
+                        size_hint: 0.7, 1
+                    SettingsInput:
+                        id: amount
+                        size_hint: 0.7, 1
+                ViewerLabel:
+                    id: wallet_balance
+                    text: "Wallet Balance:"
+                    size_hint: .9, 1
+            SeparateLabel:
+            BoxLayout:
+                orientation:'vertical'
+                size: root.width, root.height
+                size_hint: 1, 0.6
+                ScrollView:
+                    do_scroll_x: False
+                    do_scroll_y: True
+                    id: viewer_scrollview
+                    BoxLayout:
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        id: viewer_widgets
+                        spacing: 3
+                        padding: 3
+
+            SeparateLabel:
+            BoxLayout:
+                orientation: 'horizontal'
+                spacing: 3
+                padding: 3
+                size_hint: 1, 0.2
+                TextInput:
+                    multiline: True
+                    id: donor_message
+                    on_text: root.on_text_input(self.text)
+                    font_size: 16
+                    hint_text: "Type your message here......"
+                StandardButton:
+                    disabled: True
+                    id: send_button
+                    size_hint: 0.25, 1
+                    text: 'Send'
+                    bold: True
+                    on_release: root.send_message(donor_message.text, viewer_name.text, streamer_name.text, amount.text)
+
+    TabbedPanelItem:
+        text: 'Settings'
+        font_size: 18
+        bold: True
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 3
+            padding: 3
+            row_force_default: True
+            row_default_height: 20
+            # Background color in Tab
+            canvas.before:
+                Color:
+                    rgba: (51/255, 133/255, 1, 1)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            GridLayout:
+                rows: 5
+                cols: 2
+                spacing: 3
+                padding: 3
+                size_hint: 1, .5
+                orientation: 'tb-lr'
+                SettingsLabel:
+                    text: 'Wallet Address:'
+                SettingsLabel:
+                    text: 'Private Key:'
+                SettingsLabel:
+                    text: 'Contract:'
+                SettingsLabel:
+                    text: 'Polygon Link:'
+                SettingsLabel:
+                    text: 'Mumbai Link:'
+                SettingsInput:
+                    id: wallet_address
+                    on_focus: root.update_data(self.focus, 'wallet_address', self.text)
+                SettingsInput:
+                    id: private_key
+                    on_focus: root.update_data(self.focus, 'private_key', self.text)
+                SettingsInput:
+                    id: contract
+                    on_focus: root.update_data(self.focus, 'contract', self.text)
+                SettingsInput:
+                    id: polygon_link
+                    on_focus: root.update_data(self.focus, 'polygon_link', self.text)
+                SettingsInput:
+                    id: mumbai_link
+                    on_focus: root.update_data(self.focus, 'mumbai_link', self.text)
+            FloatLayout:
+                NetworkToggle:
+                    id: polygon
+                    text: 'Polygon'
+                    group: 'network'
+                    pos_hint: {'x': 0.01, 'top': 0.95}
+                    on_release: root.change_network('polygon')
+                NetworkToggle:
+                    id: mumbai
+                    text: 'Mumbai'
+                    group: 'network'
+                    pos_hint: {'right': 0.99, 'top': 0.95}
+                    on_release: root.change_network('mumbai')
