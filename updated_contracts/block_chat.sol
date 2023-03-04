@@ -38,6 +38,7 @@ contract BlockChat{
         uint msgLength = getStringLength(_message);
         uint amountSent;
         if (payWithBLCC){
+            // Payment via BLCC should the viewer decide to pay in such way.
             amountSent = payViaBlockChatToken(_message, msg.sender, recipient);
         }
         else {
@@ -45,7 +46,7 @@ contract BlockChat{
             (bool lengthOK, string memory message) = messageLengthCheck(_message, usdSent);
             require(lengthOK, message);
             BlockChatCoin _contract = BlockChatCoin(pairedToken);
-            _contract.mint(msg.sender, msgLength); // Token minting for the viewer
+            _contract.mint(msg.sender, msgLength); // Token minting for the viewer 1 BLCC per 1 letter
             payable(recipient).transfer(msg.value);
             amountSent = msg.value;
         }
@@ -84,7 +85,7 @@ contract BlockChat{
         return usdAmountSent;
     }
 
-    // Checking length of a sent superchat
+    // Checking length of a sent superchat. If the length of the superchat is insufficient, the transaction will fail.
     function messageLengthCheck(string calldata _message, uint _amount) public pure returns(bool, string memory){
         uint msgLength = getStringLength(_message);
         if (msgLength > 100 && _amount < 10){
@@ -101,7 +102,7 @@ contract BlockChat{
         }
         return (true, "Passed");
     }
-
+    // Function which lets the contract know, which ERC20 BLCC to work with
     function tokenPairing(address _pairToken) external {
         require(!pairingDone, "Pairing already done!!");
         pairedToken = _pairToken;
